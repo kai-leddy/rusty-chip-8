@@ -3,7 +3,7 @@ mod chip8;
 use std::env;
 
 fn main() {
-    let mut emulator = chip8::Chip8::default();
+    let mut emulator = chip8::Chip8::new();
     let args: Vec<String> = env::args().collect();
 
     match args.len() {

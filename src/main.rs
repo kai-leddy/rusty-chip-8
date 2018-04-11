@@ -1,3 +1,5 @@
+extern crate termion;
+
 mod chip8;
 
 use std::env;

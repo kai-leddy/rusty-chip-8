@@ -1,6 +1,6 @@
 use std::fs::File;
 use std::io::Read;
-use termion::{clear, color};
+use termion::clear;
 
 const RAM_SIZE: usize = 4 * 1024;
 const REGISTER_SIZE: usize = 16;

@@ -37,7 +37,7 @@ impl Chip8 {
             timer_delay: 0,
             timer_sound: 0,
             keyboard: [false; KEYBOARD_SIZE],
-            display: [true; DISPLAY_WIDTH * DISPLAY_HEIGHT],
+            display: [false; DISPLAY_WIDTH * DISPLAY_HEIGHT],
         }
     }
 

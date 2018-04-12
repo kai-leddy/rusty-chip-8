@@ -1,6 +1,3 @@
-extern crate termion;
-
-mod traits;
 mod chip8;
 mod renderers;
 

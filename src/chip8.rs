@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::Read;
 
-use super::traits::Renderer;
+use super::renderers::Renderable;
 
 const RAM_SIZE: usize = 4 * 1024;
 const REGISTER_SIZE: usize = 16;
@@ -11,7 +11,7 @@ const DISPLAY_WIDTH: usize = 64;
 const DISPLAY_HEIGHT: usize = 32;
 
 pub struct Chip8 {
-    renderer: Box<Renderer>,
+    renderer: Box<Renderable>,
     ram: [u8; RAM_SIZE],
     registers: [u8; REGISTER_SIZE],
     address_register: u16,
@@ -25,7 +25,7 @@ pub struct Chip8 {
 }
 
 impl Chip8 {
-    pub fn new(renderer: Box<Renderer>) -> Chip8 {
+    pub fn new(renderer: Box<Renderable>) -> Chip8 {
         Chip8 {
             renderer: renderer,
             ram: [0; RAM_SIZE],
@@ -37,7 +37,7 @@ impl Chip8 {
             timer_delay: 0,
             timer_sound: 0,
             keyboard: [false; KEYBOARD_SIZE],
-            display: [false; DISPLAY_WIDTH * DISPLAY_HEIGHT],
+            display: [true; DISPLAY_WIDTH * DISPLAY_HEIGHT],
         }
     }
 

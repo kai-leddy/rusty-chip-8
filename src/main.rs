@@ -1,3 +1,4 @@
+mod config;
 mod chip8;
 mod renderers;
 

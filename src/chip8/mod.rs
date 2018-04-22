@@ -61,7 +61,7 @@ impl<'a> Chip8<'a> {
             self.renderer.render(&self.display);
 
             // TODO: remove this 1fps limit
-            thread::sleep(Duration::from_secs(1));
+            thread::sleep(Duration::from_millis(50));
         }
     }
 

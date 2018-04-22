@@ -2,6 +2,7 @@ mod interpreter;
 
 use std::fs::File;
 use std::io::Read;
+use std::io::Error;
 use std::time::Duration;
 use std::thread;
 
@@ -46,15 +47,21 @@ impl<'a> Chip8<'a> {
     }
 
     pub fn run(&mut self, rom_path: &String) {
-        self.load(rom_path);
+        // Print an error if ROM loading failed
+        if let Err(_) = self.load(rom_path) {
+            println!("Failed to load ROM \"{}\"", &rom_path);
+            return;
+        }
+
+        // Main run loop for the emulator
         loop {
             let opcode = {
                 let msb = self.ram[self.program_counter] as u16;
                 let lsb = self.ram[self.program_counter + 1] as u16;
                 (msb << 8) | lsb
             };
-            self.interpret(opcode);
             self.program_counter += 2;
+            self.interpret(opcode);
             self.renderer
                 .render(&self.display, &DISPLAY_WIDTH, &DISPLAY_HEIGHT);
 
@@ -63,7 +70,8 @@ impl<'a> Chip8<'a> {
         }
     }
 
-    fn load(&mut self, rom_path: &String) {
-        File::open(rom_path).unwrap().read(&mut self.ram).unwrap();
+    fn load(&mut self, rom_path: &String) -> Result<(), Error> {
+        File::open(rom_path)?.read(&mut self.ram)?;
+        Ok(())
     }
 }

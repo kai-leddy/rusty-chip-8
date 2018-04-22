@@ -19,12 +19,10 @@ impl Display {
         self.screen[x][y] = value
     }
 
-    #[inline]
     pub fn width(&self) -> usize {
         config::DISPLAY_WIDTH
     }
 
-    #[inline]
     pub fn height(&self) -> usize {
         config::DISPLAY_HEIGHT
     }

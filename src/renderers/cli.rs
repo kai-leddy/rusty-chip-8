@@ -5,7 +5,7 @@ pub struct CLI;
 impl Renderable for CLI {
     fn render(&mut self, display: &[bool], width: &usize, height: &usize) {
         // Clear the terminal
-        print!("{}[2J", 27 as char); 
+        print!("{}[2J", 27 as char);
         // Draw the top of the border
         println!("{}{}{}", "╔", format!("{:═<1$}", "", width), "╗");
         // Draw each display cell

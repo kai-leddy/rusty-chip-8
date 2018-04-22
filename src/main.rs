@@ -8,7 +8,8 @@ fn main() {
 
     match args.len() {
         2 => {
-            let mut emulator = chip8::Chip8::new(Box::new(renderers::cli::CLI));
+            let mut renderer = renderers::cli::CLI;
+            let mut emulator = chip8::Chip8::new(&mut renderer);
             emulator.run(&args[1]);
         }
         _ => println!("Usage: rusty-chip-8 <path_to_rom>"),

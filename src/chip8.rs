@@ -10,8 +10,8 @@ const KEYBOARD_SIZE: usize = 16;
 const DISPLAY_WIDTH: usize = 64;
 const DISPLAY_HEIGHT: usize = 32;
 
-pub struct Chip8 {
-    renderer: Box<Renderable>,
+pub struct Chip8<'a> {
+    renderer: &'a mut Renderable,
     ram: [u8; RAM_SIZE],
     registers: [u8; REGISTER_SIZE],
     address_register: u16,
@@ -24,8 +24,8 @@ pub struct Chip8 {
     display: [bool; DISPLAY_WIDTH * DISPLAY_HEIGHT],
 }
 
-impl Chip8 {
-    pub fn new(renderer: Box<Renderable>) -> Chip8 {
+impl<'a> Chip8<'a> {
+    pub fn new(renderer: &mut Renderable) -> Chip8 {
         Chip8 {
             renderer: renderer,
             ram: [0; RAM_SIZE],

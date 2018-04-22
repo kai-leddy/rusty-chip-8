@@ -33,7 +33,7 @@ impl<'a> Chip8<'a> {
             ram: [0; config::RAM_SIZE],
             registers: [0; config::REGISTER_SIZE],
             address_register: 0,
-            program_counter: 0,
+            program_counter: 0x200,
             stack: [0; config::STACK_SIZE],
             stack_pointer: 0,
             timer_delay: 0,
@@ -60,13 +60,13 @@ impl<'a> Chip8<'a> {
             self.interpret(opcode);
             self.renderer.render(&self.display);
 
-            // TODO: remove this 1fps limit
-            thread::sleep(Duration::from_millis(50));
+            // TODO: remove this naive 60fps limit
+            thread::sleep(Duration::from_millis(1000 / 60));
         }
     }
 
     fn load(&mut self, rom_path: &String) -> Result<(), Error> {
-        File::open(rom_path)?.read(&mut self.ram)?;
+        File::open(rom_path)?.read(&mut self.ram[0x200..])?;
         Ok(())
     }
 }

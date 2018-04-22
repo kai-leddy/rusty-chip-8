@@ -12,8 +12,7 @@ impl<'a> Chip8<'a> {
                 let y = self.get_y(&opcode) as usize;
                 let n = self.get_n(&opcode) as usize;
 
-                // TODO: get rid of the 0x200 offset hack
-                let i = self.address_register - 0x200;
+                let i = self.address_register;
                 for dy in 0..n {
                     // get each byte from ram
                     let byte = self.ram[i + dy as usize];

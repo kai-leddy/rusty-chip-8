@@ -1,5 +1,9 @@
+mod interpreter;
+
 use std::fs::File;
 use std::io::Read;
+use std::time::Duration;
+use std::thread;
 
 use super::renderers::Renderable;
 
@@ -14,10 +18,10 @@ pub struct Chip8<'a> {
     renderer: &'a mut Renderable,
     ram: [u8; RAM_SIZE],
     registers: [u8; REGISTER_SIZE],
-    address_register: u16,
-    program_counter: u16,
+    address_register: usize,
+    program_counter: usize,
     stack: [u16; STACK_SIZE],
-    stack_pointer: u8,
+    stack_pointer: usize,
     timer_delay: u8,
     timer_sound: u8,
     keyboard: [bool; KEYBOARD_SIZE],
@@ -43,8 +47,20 @@ impl<'a> Chip8<'a> {
 
     pub fn run(&mut self, rom_path: &String) {
         self.load(rom_path);
-        self.renderer
-            .render(&self.display, &DISPLAY_WIDTH, &DISPLAY_HEIGHT);
+        loop {
+            let opcode = {
+                let msb = self.ram[self.program_counter] as u16;
+                let lsb = self.ram[self.program_counter + 1] as u16;
+                (msb << 8) | lsb
+            };
+            self.interpret(opcode);
+            self.program_counter += 2;
+            self.renderer
+                .render(&self.display, &DISPLAY_WIDTH, &DISPLAY_HEIGHT);
+
+            // TODO: remove this 1fps limit
+            thread::sleep(Duration::from_secs(1));
+        }
     }
 
     fn load(&mut self, rom_path: &String) {

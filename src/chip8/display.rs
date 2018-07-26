@@ -5,6 +5,12 @@ pub struct Display {
 }
 
 impl Display {
+    fn wrap_coords(x: usize, y: usize) -> (usize, usize) {
+        let x = x % config::DISPLAY_WIDTH;
+        let y = y % config::DISPLAY_HEIGHT;
+        (x, y)
+    }
+
     pub fn new() -> Display {
         Display {
             screen: [[false; config::DISPLAY_HEIGHT]; config::DISPLAY_WIDTH],
@@ -12,10 +18,12 @@ impl Display {
     }
 
     pub fn get(&self, x: usize, y: usize) -> bool {
+        let (x, y) = Display::wrap_coords(x, y);
         self.screen[x][y]
     }
 
     pub fn set(&mut self, x: usize, y: usize, value: bool) {
+        let (x, y) = Display::wrap_coords(x, y);
         self.screen[x][y] = value
     }
 

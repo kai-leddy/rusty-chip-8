@@ -3,9 +3,11 @@ use super::Chip8;
 impl<'a> Chip8<'a> {
     pub(super) fn interpret(&mut self, opcode: u16) {
         match opcode {
+            //ANNN -> set address register I to NNN
             0xa000...0xafff => {
                 self.address_register = self.get_nnn(&opcode);
             }
+            // DXYN -> Draw N height sprite at (X,Y)
             0xd000...0xdfff => {
                 // Draw sprite
                 let x = self.get_x(&opcode) as usize;
@@ -22,6 +24,7 @@ impl<'a> Chip8<'a> {
                         let val = (byte & (1 << (7 - dx))) != 0;
                         self.display.set(x + dx, y + dy, val);
                         // TODO: set VF for flipped bits
+                        // TODO: handle wrapping of off-screen co-ords
                     }
                 }
             }

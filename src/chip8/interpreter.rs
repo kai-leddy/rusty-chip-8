@@ -21,10 +21,16 @@ impl<'a> Chip8<'a> {
                     // get each bit from the byte
                     for dx in 0..8 {
                         // get as a boolean
-                        let val = (byte & (1 << (7 - dx))) != 0;
-                        self.display.set(x + dx, y + dy, val);
-                        // TODO: set VF for flipped bits
-                        // TODO: handle wrapping of off-screen co-ords
+                        let sprite_cell = (byte & (1 << (7 - dx))) != 0;
+                        // convenience variables
+                        let x = x + dx;
+                        let y = y + dy;
+                        // current cell value
+                        let current_cell = self.display.get(x, y);
+                        // XOR with sprite cell value
+                        self.display.set(x, y, current_cell ^ sprite_cell);
+                        // set VF for flipped bits
+                        self.registers[0xf] = (current_cell & sprite_cell) as u8;
                     }
                 }
             }

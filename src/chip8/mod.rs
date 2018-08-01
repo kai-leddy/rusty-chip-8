@@ -27,7 +27,7 @@ pub struct Chip8<'a> {
 
 impl<'a> Chip8<'a> {
     pub fn new(renderer: &mut Renderable) -> Chip8 {
-        Chip8 {
+        let mut instance = Chip8 {
             display: Display::new(),
             renderer: renderer,
             ram: [0; config::RAM_SIZE],
@@ -39,7 +39,11 @@ impl<'a> Chip8<'a> {
             timer_delay: 0,
             timer_sound: 0,
             keyboard: [false; config::KEYBOARD_SIZE],
+        };
+        for (i, byte) in config::HEX_CHAR_SPRITES.iter().enumerate() {
+            instance.ram[i] = *byte
         }
+        instance
     }
 
     pub fn run(&mut self, rom_path: &String) {

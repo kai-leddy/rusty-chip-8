@@ -17,6 +17,10 @@ impl Display {
         }
     }
 
+    pub fn clear(&mut self) {
+        self.screen = [[false; config::DISPLAY_HEIGHT]; config::DISPLAY_WIDTH];
+    }
+
     pub fn get(&self, x: usize, y: usize) -> bool {
         let (x, y) = Display::wrap_coords(x, y);
         self.screen[x][y]

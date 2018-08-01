@@ -3,7 +3,13 @@ use super::Chip8;
 impl<'a> Chip8<'a> {
     pub(super) fn interpret(&mut self, opcode: u16) {
         match opcode {
-            //ANNN -> set address register I to NNN
+            // 00E0 -> Clear the display
+            0x00e0 => {
+                self.display.clear();
+            }
+            // 00EE -> Return from a subroutine
+            0x00ee => {}
+            // ANNN -> Set address register I to NNN
             0xa000...0xafff => {
                 self.address_register = self.get_nnn(&opcode);
             }

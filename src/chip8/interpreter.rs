@@ -8,7 +8,20 @@ impl<'a> Chip8<'a> {
                 self.display.clear();
             }
             // 00EE -> Return from a subroutine
-            0x00ee => {}
+            0x00ee => {
+                self.stack_pointer -= 1;
+                self.program_counter = self.stack[self.stack_pointer];
+            }
+            // 1NNN -> Set program counter to NNN
+            0x1000...0x1fff => {
+                self.program_counter = self.get_nnn(&opcode);
+            }
+            // 2NNN -> Call subroutine at NNN
+            0x2000...0x2fff => {
+                self.stack[self.stack_pointer] = self.program_counter;
+                self.stack_pointer += 1;
+                self.program_counter = self.get_nnn(&opcode);
+            }
             // ANNN -> Set address register I to NNN
             0xa000...0xafff => {
                 self.address_register = self.get_nnn(&opcode);

@@ -18,7 +18,7 @@ pub struct Chip8<'a> {
     registers: [u8; config::REGISTER_SIZE],
     address_register: usize,
     program_counter: usize,
-    stack: [u16; config::STACK_SIZE],
+    stack: [usize; config::STACK_SIZE],
     stack_pointer: usize,
     timer_delay: u8,
     timer_sound: u8,
